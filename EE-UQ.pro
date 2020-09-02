@@ -22,10 +22,15 @@ DEFINES += APP_VERSION=\\\"$$VERSION\\\"
 include($$PWD/ConanHelper.pri)
 
 win32{
-    LIBS -= -llapacke.dll.lib -llapack.dll.lib -lblas.dll.lib -lcblas.dll.lib
-    LIBS += -llapacke.dll -llapack.dll -lblas.dll -lcblas.dll -lAdvapi32
+    LIBS = $$replace(LIBS, .dll.lib, .dll)
+    LIBS += -lAdvapi32
 }
 
+
+linux{
+    CONFIG += no_lflags_merge
+    LIBS += -llapack -lgfortran 
+}
 
 win32 {
     RC_ICONS = icons/NHERI-EEUQ-Icon.ico
@@ -36,11 +41,6 @@ win32 {
 }
 
 
-include(../SimCenterCommon/Common/Common.pri)
-include(../SimCenterCommon/Workflow/Workflow.pri)
-include(../SimCenterCommon/RandomVariables/RandomVariables.pri)
-include(../SimCenterCommon/InputSheetBM/InputSheetBM.pri)
-include(../s3hark/s3hark.pri)
 include(./EarthquakeEvents.pri)
 
 
